@@ -1,0 +1,31 @@
+# Prerequisites:
+# - silverhand-io/actions-node-pnpm-run-steps@v3
+# - environment variables: DB_URL
+
+name: Run Logto DB alteration steps
+description: This action is used to run Logto DB alteration steps based on a given branch
+inputs:
+  branch:
+    description: "Alterations source branch"
+    required: true
+    default: ${{ github.head_ref }}
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.branch }}
+        path: alterations
+    - name: Prepack ci for alterations
+      working-directory: alterations
+      shell: bash
+      run: |
+        pnpm i
+        pnpm prepack
+    - name: Run alteration scripts
+      working-directory: alterations
+      shell: bash
+      run: |
+        pnpm cli db alt deploy next
