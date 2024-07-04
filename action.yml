@@ -1,5 +1,5 @@
 # Prerequisites:
-# - silverhand-io/actions-node-pnpm-run-steps@v3
+# - silverhand-io/actions-node-pnpm-run-steps
 # - environment variables: DB_URL
 
 name: Run Logto DB alteration steps
