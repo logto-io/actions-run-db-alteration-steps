@@ -9,6 +9,10 @@ inputs:
     description: "Alterations source branch"
     required: true
     default: ${{ github.head_ref }}
+  repository:
+    description: "Repository hosting the alterations branch. Defaults to the current repository; set to the PR head repo (e.g. a fork) to support community PRs."
+    required: false
+    default: ${{ github.repository }}
 
 runs:
   using: composite
@@ -16,6 +20,7 @@ runs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
+        repository: ${{ inputs.repository }}
         ref: ${{ inputs.branch }}
         path: alterations
     - name: Prepack ci for alterations
